@@ -42,10 +42,11 @@ void Arithmetic_Coding::update_tables(int symbol)
     // Find symbol's new index.
     for (i = symbol; freq[i] == freq[i - 1]; i--);
 
+    // Update the translation tables if the symbol has moved.
     if (i < symbol)
     {
         int ch_i = index_to_char[i], ch_symbol = index_to_char[symbol];
-        // Update the translation tables if the symbol has moved.
+
         index_to_char[i] = static_cast<unsigned char>(ch_symbol);
         index_to_char[symbol] = static_cast<unsigned char>(ch_i);
         char_to_index[ch_i] = symbol;

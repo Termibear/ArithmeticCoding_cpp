@@ -11,6 +11,7 @@ Encode::Encode()
     bits_to_follow = 0;
 }
 
+// Encodes characters from the file, and creates a new encoded file.
 void Encode::encode(const char *in_file, const char *out_file)
 {
     // Open the files for encoding.

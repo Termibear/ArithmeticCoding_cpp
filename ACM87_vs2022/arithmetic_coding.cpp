@@ -1,5 +1,6 @@
 #include "arithmetic_coding.h"
 
+// Initialize the model.
 Arithmetic_Coding::Arithmetic_Coding()
 {
     int i;
@@ -7,7 +8,7 @@ Arithmetic_Coding::Arithmetic_Coding()
     for (i = 0; i < NO_OF_CHARS; i++)
     {
         char_to_index[i] = i + 1;
-        index_to_char[i + 1] = i;
+        index_to_char[i + 1] = static_cast<unsigned char>(i);
     }
 
     // Set up initial frequency counts to be 1 for all symbols.
@@ -21,6 +22,7 @@ Arithmetic_Coding::Arithmetic_Coding()
     freq[0] = 0;
 }
 
+// Update the model to account for a new symbol.
 void Arithmetic_Coding::update_tables(int symbol)
 {
     int i;
@@ -44,8 +46,8 @@ void Arithmetic_Coding::update_tables(int symbol)
     {
         int ch_i = index_to_char[i], ch_symbol = index_to_char[symbol];
         // Update the translation tables if the symbol has moved.
-        index_to_char[i] = ch_symbol;
-        index_to_char[symbol] = ch_i;
+        index_to_char[i] = static_cast<unsigned char>(ch_symbol);
+        index_to_char[symbol] = static_cast<unsigned char>(ch_i);
         char_to_index[ch_i] = symbol;
         char_to_index[ch_symbol] = i;
     }

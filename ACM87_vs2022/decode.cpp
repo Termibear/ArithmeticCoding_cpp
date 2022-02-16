@@ -53,7 +53,7 @@ void Decode::decode(const char *in_file, const char *out_file)
         int ch = index_to_char[symbol];
 
         // Write that character.
-        out.put(ch);
+        out.put(static_cast<char>(ch));
         // Update the model.
         update_tables(symbol);
     }

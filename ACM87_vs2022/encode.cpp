@@ -101,7 +101,7 @@ void Encode::done_encoding()
         bit_plus_follow(1);
 
     // Flush out the last bits.
-    out.put(buffer >> bits_to_go);
+    out.put(static_cast<char>(buffer >> bits_to_go));
 }
 
 // Output bits plus following opposite bits.
@@ -129,7 +129,7 @@ void Encode::output_bit(int bit)
     // Output buffer if it is now full.
     if (bits_to_go == 0)
     {
-        out.put(buffer);
+        out.put(static_cast<char>(buffer));
         bits_to_go = 8;
     }
 }

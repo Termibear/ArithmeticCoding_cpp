@@ -6,7 +6,7 @@
 int main(int argc, char** argv)
 {
     // Check for correct number of arguments.
-    if (argc > 4)
+    if (argc > 4 || argc < 2)
     {
         std::cerr << "Usage: " << argv[0] << "[e/d/v] <in_file> <out_file>" << std::endl;
         return -1;

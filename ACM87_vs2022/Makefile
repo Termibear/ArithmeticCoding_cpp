@@ -8,3 +8,4 @@ $(TARGET): $(addsuffix .cpp, $(SRC))
 
 clean:
 	/bin/rm -f $(addsuffix .o, $(SRC))
+	/bin/rm -f $(TARGET)

@@ -11,8 +11,6 @@ class Decode : public Arithmetic_Coding
     int bits_to_go;                                         // Number of bits still in buffer.
     int garbage_bits;                                       // Number of bits past EOF.
 
-    bool end_decoding;                                      // Check if we are done decoding.
-
     std::ifstream in;                                       // File to be decoded.
     std::ofstream out;                                      // The decoded file.
 public:
@@ -20,7 +18,7 @@ public:
     ~Decode() = default;                                    // Default destructor.
 
     void start_decoding();                                  // Input bits to fill the code value.
-    void decode(const char *in_file, const char *out_file); // Decodes symbols from the file, and creates a new decoded file.
+    bool decode(const char *in_file, const char *out_file); // Decodes symbols from the file, and creates a new decoded file. Returns false if a file could not be opened.
     int decode_symbol();                                    // Decodes a symbol.
     int input_bit();                                        // Inputs a bit.
 };

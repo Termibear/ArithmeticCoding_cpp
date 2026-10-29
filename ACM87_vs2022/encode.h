@@ -21,5 +21,5 @@ public:
     void bit_plus_follow(int bit);                          // Output bits plus following opposite bits.
     void done_encoding();                                   // Finish encoding the stream.
     void encode_symbol(int symbol);                         // Encodes a character.
-    void encode(const char *in_file, const char *out_file); // Encodes characters from the file, and creates a new encoded file.
+    bool encode(const char *in_file, const char *out_file); // Encodes characters from the file, and creates a new encoded file. Returns false if a file could not be opened.
 };

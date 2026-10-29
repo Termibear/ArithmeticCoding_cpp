@@ -6,9 +6,9 @@
 int main(int argc, char** argv)
 {
     // Check for correct number of arguments.
-    if (argc > 4 || argc < 2)
+    if (argc != 4)
     {
-        std::cerr << "Usage: " << argv[0] << "[e/d/v] <in_file> <out_file>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " [e/d/v] <in_file> <out_file>" << std::endl;
         return -1;
     }
 
@@ -16,7 +16,8 @@ int main(int argc, char** argv)
     if (argv[1][0] == 'e')
     {
         Encode obj;
-        obj.encode(argv[2], argv[3]);
+        if (!obj.encode(argv[2], argv[3]))
+            return -1;
 
         // Check compression ratio
         std::filesystem::path in_file = argv[2], out_file = argv[3];
@@ -26,14 +27,17 @@ int main(int argc, char** argv)
 
         std::cout << argv[2] << " size = " << in_size << " bytes" << std::endl;
         std::cout << argv[3] << " size = " << out_size << " bytes" << std::endl;
-        std::cout << "File size is currently " << (float)out_size / (float)in_size * 100.0f << "% of original file." << std::endl;
+        // An empty input has no meaningful ratio.
+        if (in_size > 0)
+            std::cout << "File size is currently " << (float)out_size / (float)in_size * 100.0f << "% of original file." << std::endl;
     }
 
     // Decoding.
     if (argv[1][0] == 'd')
     {
         Decode obj;
-        obj.decode(argv[2], argv[3]);
+        if (!obj.decode(argv[2], argv[3]))
+            return -1;
     }
 
     // Verifying.

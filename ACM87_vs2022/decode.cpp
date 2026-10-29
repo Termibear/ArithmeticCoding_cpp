@@ -1,5 +1,4 @@
 #include "decode.h"
-#include <sstream>
 
 // Initialize decode values and bit input.
 Decode::Decode() : value{ 0 }
@@ -8,7 +7,6 @@ Decode::Decode() : value{ 0 }
     buffer = 0;
     bits_to_go = 0;
     garbage_bits = 0;
-    end_decoding = false;
 
     // Full code range.
     low = 0;
@@ -24,16 +22,21 @@ void Decode::start_decoding()
 }
 
 // Decode a symbol from the stream.
-void Decode::decode(const char *in_file, const char *out_file)
+bool Decode::decode(const char *in_file, const char *out_file)
 {
-    // Open the files for encoding.
+    // Open the input first, so a missing input doesn't leave an empty output file behind.
     in.open(in_file, std::ios::binary);
-    out.open(out_file, std::ios::binary);
-
-    if (!in || !out)
+    if (!in)
     {
-        std::cerr << "Error: Could not open file.\n";
-        return;
+        std::cerr << "Error: Could not open " << in_file << ".\n";
+        return false;
+    }
+
+    out.open(out_file, std::ios::binary);
+    if (!out)
+    {
+        std::cerr << "Error: Could not open " << out_file << ".\n";
+        return false;
     }
 
     start_decoding();
@@ -44,7 +47,7 @@ void Decode::decode(const char *in_file, const char *out_file)
         // Decode next symbol.
         int symbol = decode_symbol();
         // Exit loop if EOF symbol.
-        if ((symbol == EOF_SYMBOL) || end_decoding)
+        if (symbol == EOF_SYMBOL)
         {
             std::cout << "Decoding finished" << std::endl;
             break;
@@ -57,9 +60,10 @@ void Decode::decode(const char *in_file, const char *out_file)
         // Update the model.
         update_tables(symbol);
     }
-    
+
     in.close();
     out.close();
+    return true;
 }
 
 // Decodes a symbol.
